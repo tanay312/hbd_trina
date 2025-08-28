@@ -1,0 +1,568 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Happy Birthday Trina 🎉</title>
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Baloo+2:wght@600;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --white:#ffffff;
+    --purple-1:#6b21a8;
+    --purple-2:#a78bfa;
+    --accent:#c084fc;
+    --glass: rgba(255,255,255,0.08);
+    --glass-2: rgba(255,255,255,0.04);
+    --muted: rgba(255,255,255,0.85);
+    --shadow: 0 18px 50px rgba(10,10,30,0.28);
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,system-ui, -apple-system, 'Baloo 2', sans-serif;color:#2b0a4a;overflow:hidden;background:linear-gradient(135deg,var(--white),#f8f2ff 40%, #efe7ff 60%);}
+  /* app layout */
+  .app{height:100vh;display:flex;flex-direction:column;}
+  header{height:70px;display:flex;align-items:center;justify-content:space-between;padding:10px 18px;background:linear-gradient(90deg, rgba(255,255,255,0.5), rgba(255,255,255,0.35));backdrop-filter: blur(6px);border-bottom:1px solid rgba(98,0,238,0.06);z-index:60}
+  .brand{display:flex;align-items:center;gap:12px}
+  .logo{width:48px;height:48px;border-radius:12px;background:linear-gradient(180deg,#fff,#ffefff);display:grid;place-items:center;font-weight:800;color:var(--purple-1);box-shadow:var(--shadow)} 
+  nav{display:flex;gap:8px;align-items:center}
+  .nav-btn{padding:8px 12px;border-radius:999px;border:1px solid rgba(0,0,0,0.06);background:linear-gradient(90deg,rgba(255,255,255,0.85),rgba(255,255,255,0.95));font-weight:700;cursor:pointer;box-shadow: 0 6px 18px rgba(0,0,0,0.06)}
+  .nav-btn.ghost{background:transparent;border:1px solid rgba(110,15,165,0.08)}
+  /* pages container */
+  .stage{position:relative;flex:1;overflow:hidden}
+  .page{position:absolute;inset:0;display:grid;place-items:center;padding:20px;transition: transform .7s cubic-bezier(.2,.8,.2,1), opacity .45s;opacity:0;transform: translateX(20px);pointer-events:none}
+  .page.active{opacity:1;transform:none;pointer-events:auto}
+  .card{width:min(1100px,94%);max-height:calc(100vh - 180px);border-radius:18px;background:linear-gradient(180deg,var(--glass),var(--glass-2));border:1px solid rgba(110,15,165,0.06);box-shadow:var(--shadow);overflow:hidden;display:flex;flex-direction:column}
+  .card-inner{display:grid;grid-template-rows:1fr auto;min-height:420px}
+  /* Welcome */
+  .welcome-grid{display:grid;grid-template-columns:1fr 420px;gap:20px;padding:28px;align-items:center}
+  .hero-title{font-size:clamp(28px,5vw,54px);font-weight:900;line-height:1;color:var(--purple-1)}
+  .hero-sub{color:#4b2b5b;font-weight:600;opacity:.9;margin-top:8px}
+  .start-btn{margin-top:14px;padding:14px 20px;border-radius:12px;border:none;cursor:pointer;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:900;box-shadow:0 12px 36px rgba(163,94,255,0.18)}
+  /* photos grid page */
+  .photos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;padding:22px;align-items:stretch}
+  .photo-card{background:linear-gradient(180deg, rgba(255,255,255,0.85), rgba(255,255,255,0.95));border-radius:14px;padding:10px;border:1px solid rgba(110,15,165,0.06);display:flex;flex-direction:column;align-items:center;justify-content:flex-start;overflow:hidden;position:relative;transition: transform .35s, box-shadow .35s}
+  .photo-card:hover{transform:translateY(-8px);box-shadow:0 30px 60px rgba(120,40,180,0.12)}
+  .photo-card img{width:100%;height:220px;object-fit:cover;border-radius:10px;transition:transform .6s}
+  .photo-card:hover img{transform:scale(1.06)}
+  .quote-small{margin-top:10px;font-weight:700;color:var(--purple-1);text-align:center;padding:6px}
+  .photos-top{display:flex;gap:10px;align-items:center;justify-content:space-between;padding:14px 22px}
+  /* slideshow page */
+  .slideshow-wrap{display:grid;grid-template-columns:1fr 420px;gap:18px;align-items:center;padding:20px}
+  .slide-photo{width:100%;height:480px;border-radius:14px;object-fit:cover;box-shadow:0 30px 70px rgba(30,10,50,0.14)}
+  .slide-caption{font-size:20px;font-weight:800;color:var(--purple-1)}
+  .arrow-btn{width:56px;height:56px;border-radius:999px;border:none;background:linear-gradient(90deg,var(--purple-2),var(--purple-1));color:white;font-weight:800;cursor:pointer;box-shadow:0 12px 30px rgba(120,40,180,0.16)}
+  /* celebration */
+  .celebrate-stage{display:grid;grid-template-columns:1fr 420px;gap:16px;align-items:center;padding:28px}
+  .cake{width:220px;height:220px;border-radius:18px;background:linear-gradient(180deg,#fff,#fff0f8);display:grid;place-items:center;position:relative;box-shadow:0 16px 44px rgba(0,0,0,0.12)}
+  .candle{position:absolute;top:20px;width:14px;height:46px;border-radius:8px;background:linear-gradient(180deg,#ffd7ea,#ff8fb3);display:grid;place-items:center}
+  .flame{width:16px;height:26px;border-radius:50%;background:radial-gradient(circle at 40% 30%, #fff2b8 0%, #ffd54a 30%, #ff6b6b 70%);filter:drop-shadow(0 8px 10px rgba(255,100,120,0.15));animation:flame 900ms ease-in-out infinite}
+  @keyframes flame{0%{transform:translateY(0) scale(.96)}50%{transform:translateY(-7px) scale(1.08)}100%{transform:translateY(0) scale(.96)}}
+  .blow-btn{padding:10px 14px;border-radius:12px;border:none;background:linear-gradient(90deg,#fff,#f5e8ff);font-weight:800;cursor:pointer}
+  /* final */
+  .final-wrap{padding:32px;text-align:center}
+  .final-title{font-size:clamp(28px,6vw,56px);font-weight:900;color:var(--purple-1);text-shadow:0 10px 30px rgba(160,60,220,0.18)}
+  .replay-btn{margin-top:12px;padding:12px 18px;border-radius:12px;border:none;background:linear-gradient(90deg,var(--purple-1),var(--purple-2));color:white;font-weight:800;cursor:pointer}
+  /* dots control */
+  .dots{display:flex;gap:10px;align-items:center;justify-content:center;padding:14px}
+  .dot{width:12px;height:12px;border-radius:50%;background:rgba(0,0,0,0.12);cursor:pointer}
+  .dot.active{background:linear-gradient(90deg,var(--purple-1),var(--purple-2));box-shadow:0 6px 18px rgba(120,40,180,0.18)}
+  /* responsive */
+  @media(max-width:980px){ .welcome-grid{grid-template-columns:1fr} .slideshow-wrap{grid-template-columns:1fr} .celebrate-stage{grid-template-columns:1fr} .photos-grid{grid-template-columns:repeat(2,1fr)} .photo-card img{height:180px} }
+  @media(max-width:640px){ header{padding:8px} .logo{width:44px;height:44px} .photos-grid{grid-template-columns:1fr} .card{border-radius:12px} .slide-photo{height:340px} }
+  /* canvas particles and confetti layers */
+  canvas#particles, canvas#confetti, canvas#fire{position:fixed;inset:0;z-index:5;pointer-events:none}
+  /* small utility */
+  .muted{opacity:.9;color:#5b3970}
+</style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div class="brand">
+        <div class="logo">🎈</div>
+        <div>
+          <div style="font-weight:800">Happy Birthday</div>
+          <div style="font-size:12px;color:#6b2a82">Trina 🎂</div>
+        </div>
+      </div>
+      <nav>
+        <button class="nav-btn" id="musicToggle">🎵 Play</button>
+      </nav>
+    </header>
+
+    <div class="stage">
+      <!-- Particles canvas layers -->
+      <canvas id="particles"></canvas>
+      <canvas id="confetti"></canvas>
+      <canvas id="fire"></canvas>
+
+      <!-- Page 1: Welcome -->
+      <section class="page active" id="welcome">
+        <div class="card">
+          <div class="card-inner">
+            <div class="welcome-grid">
+              <div style="padding:20px">
+                <div class="hero-title">Happy Birthday, <span style="color:var(--accent)">Trina</span> 🎉</div>
+                <div class="hero-sub">A special animated celebration made just for you — photos, quotes & surprises.</div>
+                <button class="start-btn" id="startCelebrate">Start Celebration ✨</button>
+              </div>
+              <div style="display:grid;place-items:center;padding:20px">
+                <div class="cake" id="cakePreview">
+                  <div style="font-size:36px;font-weight:900;color:#8a2be2">🎂</div>
+                  <div class="candle" id="candlePreview"><div class="flame"></div></div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:12px;text-align:center;color:#5b3b7a;font-weight:700">Use the top menu or swipe left/right to move pages — enjoy 🎈</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 2: Photos Grid (all 6) -->
+      <section class="page" id="photosGrid">
+        <div class="card">
+          <div class="card-inner">
+            <div class="photos-top">
+              <div style="font-weight:900;color:var(--purple-1)">Birthday Girl</div>
+              <div style="display:flex;gap:8px">
+                <button class="nav-btn" id="shuffleBtn">Shuffle</button>
+                <button class="nav-btn" id="viewSlideshowBtn">Open Slideshow</button>
+              </div>
+            </div>
+            <div style="overflow:auto;padding:8px">
+              <div class="photos-grid" id="photosGridInner">
+                <!-- replace image src with your images in images/ folder -->
+                <div class="photo-card"><img src="images/trina1.jpg" alt="T1"><div class="quote-small">"Your smile brightens every room ✨"</div></div>
+                <div class="photo-card"><img src="images/trina2.jpg" alt="T2"><div class="quote-small">"Always shining, always kind 💖"</div></div>
+                <div class="photo-card"><img src="images/trina3.jpg" alt="T3"><div class="quote-small">"You make ordinary moments magical ✨"</div></div>
+                <div class="photo-card"><img src="images/trina4.jpg" alt="T4"><div class="quote-small">"Laughter follows you everywhere 😄"</div></div>
+                <div class="photo-card"><img src="images/trina5.jpg" alt="T5"><div class="quote-small">"A beautiful soul inside & out 💫"</div></div>
+                <div class="photo-card"><img src="images/trina6.jpg" alt="T6"><div class="quote-small">"Happy, bright and wonderfully you 🎉"</div></div>
+              </div>
+            </div>
+            <div style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px">
+              <div class="dots" id="gridDots"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 3: Photo Slideshow (one by one with quote) -->
+      <section class="page" id="slideshow">
+        <div class="card">
+          <div class="card-inner" style="padding:20px">
+            <div class="slideshow-wrap">
+              <div style="display:flex;align-items:center;gap:12px;justify-content:center">
+                <button class="arrow-btn" id="prevSlide">⟵</button>
+                <img id="slideImg" class="slide-photo" src="images/trina1.jpg" alt="slide">
+                <button class="arrow-btn" id="nextSlide">⟶</button>
+              </div>
+              <div style="display:grid;align-items:center;gap:12px;padding:12px">
+                <div class="slide-caption" id="slideCaption">"Your smile brightens every room ✨"</div>
+                <div style="display:flex;gap:8px">
+                  <button class="nav-btn" id="autoPlayToggle">Auto Play ▶</button>
+                  <button class="nav-btn" id="gotoCelebrate">Celebrate Now 🎉</button>
+                </div>
+                <div class="muted">Swipe image left/right on mobile to change photo</div>
+              </div>
+            </div>
+            <div style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px">
+              <div class="dots" id="slideDots"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 4: Celebration (blow candle) -->
+      <section class="page" id="celebration">
+        <div class="card">
+          <div class="card-inner">
+            <div class="celebrate-stage">
+              <div style="padding:18px">
+                <div style="font-size:28px;font-weight:900;color:var(--purple-1)">Make a wish, Trina ✨</div>
+                <div style="margin-top:10px;color:#5b3970">Click the candle or press <strong>spacebar</strong> to blow — confetti & cheer!</div>
+                <div style="margin-top:18px">
+                  <button class="blow-btn" id="blowBtn">Blow Candle 🎇</button>
+                </div>
+              </div>
+              <div style="display:grid;place-items:center;padding:10px">
+                <div class="cake" id="liveCake">
+                  <div style="font-size:40px;font-weight:900;color:#8a2be2">🎂</div>
+                  <div class="candle" id="liveCandle"><div class="flame" id="liveFlame"></div></div>
+                </div>
+              </div>
+            </div>
+            <div style="padding:12px;display:flex;align-items:center;justify-content:center;gap:8px">
+              <button class="nav-btn" id="goFinal">Final Surprise ✨</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Page 5: Final -->
+      <section class="page" id="final">
+        <div class="card">
+          <div class="card-inner">
+            <div class="final-wrap">
+              <div class="final-title">Once Again Happy Birthday, Trina ❤</div>
+              <div style="margin-top:8px;font-weight:700;color:#52306a">Happy Birthday — may your all dreams come true and year be full of sparkle and joy!</div>
+              <div style="margin-top:18px">
+                <button class="replay-btn" id="replayBtn">Replay Celebration 🔁</button>
+              </div>
+              <div class="cake-wrap" style="margin:20px 0;display:flex;justify-content:center;">
+          <img src="https://media4.giphy.com/media/v1.Y2lkPTc5MGI3NjExZXpyZ3Fpa3J5OTkxanF5ejZuYm9mZGhkaXAzdWJ2YzV0Mnk2NjdqbCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Lkw7QvEHjNeiHN2poQ/giphy.gif" 
+               alt="Birthday Cake" 
+               style="width:180px;height:auto;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.2)">
+        </div>
+            </div>
+            <div style="padding:12px;display:flex;align-items:center;justify-content:center;color:#5b3970; font-weight:600; font-size:18px;">
+   With love and warm wishes from your friend  
+   <span style="margin-left:6px; color:#7b3ca8; font-style:italic;">— Tanay 💜</span>
+</div>
+
+          </div>
+        </div>
+      </section>
+
+    </div> <!-- end stage -->
+
+    <!-- bottom small nav/dots for quick -->
+    <div style="height:70px;display:flex;align-items:center;justify-content:center;gap:10px;background:transparent;padding:8px">
+      <div style="display:flex;gap:8px">
+        <div class="dot" id="dWelcome" title="Home"></div>
+        <div class="dot" id="dPhotos" title="Photos"></div>
+        <div class="dot" id="dSlide" title="Slideshow"></div>
+        <div class="dot" id="dCelebrate" title="Celebrate"></div>
+        <div class="dot" id="dFinal" title="Final"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- audio (place audio/hbd.mp3 and audio/cheer.mp3) -->
+  <audio id="music" src="audio/hbd.mp3" loop preload="auto"></audio>
+  <audio id="cheer" src="audio/cheer.mp3" preload="auto"></audio>
+
+<script>
+/* ========== Page Navigation ========== */
+const pages = ['welcome','photosGrid','slideshow','celebration','final'];
+let current = 0;
+function showPage(index){
+  if(index < 0) index = 0;
+  if(index > pages.length-1) index = pages.length-1;
+  pages.forEach((id, idx)=>{
+    document.getElementById(id).classList.toggle('active', idx===index);
+  });
+  // bottom dots
+  document.querySelectorAll('div[id^="d"]').forEach((el, idx)=> el.classList.toggle('active', idx===index));
+  current = index;
+  // small effects
+  if(pages[index]==='final') startFireworks(); else stopFireworks();
+}
+document.querySelectorAll('nav .nav-btn[data-to]').forEach(btn=>{
+  btn.addEventListener('click', ()=> showPage(pages.indexOf(btn.dataset.to)));
+});
+document.getElementById('startCelebrate').addEventListener('click', ()=> { showPage(1); });
+document.getElementById('viewSlideshowBtn').addEventListener('click', ()=> showPage(2));
+document.getElementById('gotoCelebrate').addEventListener('click', ()=> showPage(3));
+document.getElementById('goFinal').addEventListener('click', ()=> showPage(4));
+document.getElementById('replayBtn').addEventListener('click', ()=> { showPage(0); resetAll(); });
+
+/* bottom dots quick nav */
+document.getElementById('dWelcome').addEventListener('click',()=>showPage(0));
+document.getElementById('dPhotos').addEventListener('click',()=>showPage(1));
+document.getElementById('dSlide').addEventListener('click',()=>showPage(2));
+document.getElementById('dCelebrate').addEventListener('click',()=>showPage(3));
+document.getElementById('dFinal').addEventListener('click',()=>showPage(4));
+
+/* swipe support on stage */
+let startX=0, isDown=false;
+const stage = document.querySelector('.stage');
+stage.addEventListener('touchstart', e=>{ startX = e.touches[0].clientX; isDown=true }, {passive:true});
+stage.addEventListener('touchend', e=>{ if(!isDown) return; const dx = (e.changedTouches[0].clientX - startX); if(dx < -60) showPage(current+1); if(dx > 60) showPage(current-1); isDown=false }, {passive:true});
+
+/* ========== Photos Grid Shuffle & enlarge ========== */
+const photosGridInner = document.getElementById('photosGridInner');
+document.getElementById('shuffleBtn').addEventListener('click', ()=>{
+  const cards = Array.from(photosGridInner.children);
+  for(let i=cards.length-1;i>0;i--){
+    const j = Math.floor(Math.random()*(i+1));
+    photosGridInner.appendChild(cards[j]);
+    cards.splice(j,1);
+  }
+});
+/* click photo to open modal (simple new window) */
+document.querySelectorAll('.photo-card img').forEach(img=>{
+  img.addEventListener('click', ()=> {
+    const w = window.open('');
+    w.document.write(`<style>body{margin:0;background:#000;display:grid;place-items:center;height:100vh}img{max-width:100%;height:auto}</style><img src="${img.src}">`);
+  });
+});
+
+/* ========== Slideshow logic ========== */
+const slides = [
+  {src:'images/trina1.jpg', caption:'"Your smile brightens every room ✨"'},
+  {src:'images/trina2.jpg', caption:'"Always shining, always kind 💖"'},
+  {src:'images/trina3.jpg', caption:'"You make ordinary moments magical ✨"'},
+  {src:'images/trina4.jpg', caption:'"Laughter follows you everywhere 😄"'},
+  {src:'images/trina5.jpg', caption:'"A beautiful soul inside & out 💫"'},
+  {src:'images/trina6.jpg', caption:'"Happy, bright and wonderfully you 🎉"'}
+];
+let slideIndex = 0, slideAuto = false, slideTimer = null;
+const slideImg = document.getElementById('slideImg'), slideCaption = document.getElementById('slideCaption'), slideDots = document.getElementById('slideDots');
+function renderSlide(i){
+  slideIndex = (i + slides.length) % slides.length;
+  slideImg.src = slides[slideIndex].src;
+  slideCaption.textContent = slides[slideIndex].caption;
+  // dots
+  slideDots.innerHTML = '';
+  slides.forEach((s, idx)=>{
+    const d = document.createElement('div'); d.className='dot'; if(idx===slideIndex) d.classList.add('active');
+    d.style.cursor='pointer'; d.addEventListener('click', ()=> renderSlide(idx));
+    slideDots.appendChild(d);
+  });
+}
+document.getElementById('prevSlide').addEventListener('click', ()=> renderSlide(slideIndex-1));
+document.getElementById('nextSlide').addEventListener('click', ()=> renderSlide(slideIndex+1));
+document.getElementById('autoPlayToggle').addEventListener('click', function(){
+  slideAuto = !slideAuto;
+  this.textContent = slideAuto ? 'Auto Play ⏸' : 'Auto Play ▶';
+  if(slideAuto){ slideTimer = setInterval(()=> renderSlide(slideIndex+1), 2800); } else { clearInterval(slideTimer); }
+});
+renderSlide(0);
+
+// swipe on slideshow image
+let sStart=0;
+slideImg.addEventListener('touchstart', e=> sStart = e.touches[0].clientX, {passive:true});
+slideImg.addEventListener('touchend', e=>{ const dx = e.changedTouches[0].clientX - sStart; if(dx<-40) renderSlide(slideIndex+1); if(dx>40) renderSlide(slideIndex-1); }, {passive:true});
+
+/* ========== Music control ========== */
+const music = document.getElementById('music'), cheer = document.getElementById('cheer');
+const musicToggle = document.getElementById('musicToggle');
+music.volume = 0.75;
+function updateMusicUI(){ musicToggle.textContent = music.paused ? '🎵 Play' : '🔊'; }
+musicToggle.addEventListener('click', ()=>{
+  if(music.paused){ music.play().catch(()=>{}); } else { music.pause(); }
+  updateMusicUI();
+});
+// try auto-play muted on first interaction (some browsers require)
+['click','touchstart','keydown'].forEach(e=> window.addEventListener(e, ()=> { if(music.paused) { music.muted=true; music.play().catch(()=>{}); music.muted=false; updateMusicUI(); } }, {once:true, passive:true}));
+
+/* ========== Candle blow -> confetti -> cheer -> fireworks ========== */
+const liveFlame = document.getElementById('liveFlame');
+function blowCandle(){
+  // extinguish
+  liveFlame.style.opacity = 0;
+  // confetti burst
+  confettiBurst(180);
+  // play cheer
+  try{ cheer.currentTime = 0; cheer.play(); }catch(e){}
+  // small fireworks
+  firePuffs();
+}
+document.getElementById('blowBtn').addEventListener('click', blowCandle);
+document.getElementById('liveCandle').addEventListener('click', blowCandle);
+window.addEventListener('keydown', e=> { if(e.code==='Space') { blowCandle(); } });
+
+/* reset */
+function resetAll(){
+  liveFlame.style.opacity = 1;
+  stopConfetti();
+  stopFireworks();
+}
+
+/* ========== Confetti canvas ========== */
+const confettiCanvas = document.getElementById('confetti'), cctx = confettiCanvas.getContext('2d');
+function fitCanvas(c){ c.width = window.innerWidth; c.height = window.innerHeight; }
+fitCanvas(confettiCanvas);
+window.addEventListener('resize', ()=> { fitCanvas(confettiCanvas); fitCanvas(document.getElementById('particles')); fitCanvas(document.getElementById('fire')); });
+
+let confettiPieces = [], confettiAnim = null;
+function confettiBurst(n=120){
+  for(let i=0;i<n;i++){
+    confettiPieces.push({
+      x: Math.random()*confettiCanvas.width,
+      y: -20 - Math.random()*200,
+      vx: (Math.random()-0.5)*6,
+      vy: 2 + Math.random()*6,
+      r: 6 + Math.random()*8,
+      hue: Math.floor(Math.random()*360),
+      rot: Math.random()*360,
+    });
+  }
+  if(!confettiAnim) confettiLoop();
+}
+function confettiLoop(){
+  confettiAnim = requestAnimationFrame(confettiLoop);
+  cctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height);
+  for(let i=confettiPieces.length-1;i>=0;i--){
+    const p = confettiPieces[i];
+    p.x += p.vx; p.y += p.vy; p.vy += 0.06;
+    p.rot += (p.vx*2);
+    cctx.save();
+    cctx.translate(p.x, p.y);
+    cctx.rotate(p.rot * Math.PI/180);
+    cctx.fillStyle = `hsl(${p.hue}, 85%, 55%)`;
+    cctx.fillRect(-p.r/2, -p.r/2, p.r, p.r*1.4);
+    cctx.restore();
+    if(p.y > confettiCanvas.height + 50) confettiPieces.splice(i,1);
+  }
+  if(confettiPieces.length===0){ stopConfetti(); }
+}
+function stopConfetti(){ if(confettiAnim){ cancelAnimationFrame(confettiAnim); confettiAnim = null; } confettiPieces = []; cctx.clearRect(0,0,confettiCanvas.width, confettiCanvas.height); }
+
+/* ========== Particles background (soft white/purple) ========== */
+const pCanvas = document.getElementById('particles'), pctx = pCanvas.getContext('2d');
+fitCanvas(pCanvas);
+const particles = [];
+for(let i=0;i<110;i++){
+  particles.push({
+    x: Math.random()*pCanvas.width,
+    y: Math.random()*pCanvas.height,
+    r: 1 + Math.random()*3,
+    vx: (Math.random()-0.5)*0.6,
+    vy: (Math.random()-0.5)*0.6,
+    hue: 250 + Math.random()*40
+  });
+}
+function particlesLoop(){
+  requestAnimationFrame(particlesLoop);
+  pctx.clearRect(0,0,pCanvas.width,pCanvas.height);
+  particles.forEach(p=>{
+    p.x += p.vx; p.y += p.vy;
+    if(p.x<0) p.x = pCanvas.width;
+    if(p.x>pCanvas.width) p.x = 0;
+    if(p.y<0) p.y = pCanvas.height;
+    if(p.y>pCanvas.height) p.y = 0;
+    const g = pctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*6);
+    g.addColorStop(0, `hsla(${p.hue},80%,90%,0.95)`);
+    g.addColorStop(0.35, `hsla(${p.hue},80%,85%,0.45)`);
+    g.addColorStop(1, `hsla(${p.hue},80%,85%,0)`);
+    pctx.fillStyle = g;
+    pctx.beginPath(); pctx.arc(p.x,p.y,p.r,0,Math.PI*2); pctx.fill();
+  });
+}
+particlesLoop();
+
+/* ========== Fireworks for final ========== */
+const fireCanvas = document.getElementById('fire'), fctx = fireCanvas.getContext('2d');
+fitCanvas(fireCanvas);
+let fireworks = [], fireAnim = null;
+function firePuffs(){
+  // create several puffs
+  for(let i=0;i<3;i++){
+    fireworks.push(createPuff(window.innerWidth * (0.3 + 0.4*Math.random()), window.innerHeight * (0.2 + 0.2*Math.random())));
+  }
+  if(!fireAnim) fireLoop();
+}
+function createPuff(x,y){
+  const arr = [];
+  const count = 26 + Math.floor(Math.random()*20);
+  for(let i=0;i<count;i++){
+    const ang = Math.random()*Math.PI*2;
+    const speed = 2 + Math.random()*6;
+    arr.push({
+      x,y,
+      vx: Math.cos(ang)*speed,
+      vy: Math.sin(ang)*speed,
+      life: 60 + Math.random()*40,
+      hue: Math.floor(Math.random()*360)
+    });
+  }
+  return arr;
+}
+function fireLoop(){
+  fireAnim = requestAnimationFrame(fireLoop);
+  fctx.clearRect(0,0,fireCanvas.width, fireCanvas.height);
+  for(let i=fireworks.length-1;i>=0;i--){
+    const puff = fireworks[i];
+    for(let j=puff.length-1;j>=0;j--){
+      const p = puff[j];
+      p.x += p.vx; p.y += p.vy; p.vy += 0.06; p.life--;
+      fctx.fillStyle = `hsla(${p.hue},90%,60%, ${Math.max(0, p.life/90)})`;
+      fctx.beginPath(); fctx.arc(p.x, p.y, 3,0,Math.PI*2); fctx.fill();
+      if(p.life<=0) puff.splice(j,1);
+    }
+    if(puff.length===0) fireworks.splice(i,1);
+  }
+  if(fireworks.length===0) stopFireworks();
+}
+function stopFireworks(){ if(fireAnim){ cancelAnimationFrame(fireAnim); fireAnim = null; } fctx.clearRect(0,0,fireCanvas.width, fireCanvas.height); }
+
+/* ========== Helper functions ========== */
+function startFireworks(){ firePuffs(); setInterval(firePuffs, 900); }
+function stopFireworks(){ stopFireworks(); }
+
+/* ========== Small UI Init ========== */
+showPage(0);
+document.getElementById('viewSlideshowBtn').addEventListener('click', ()=> showPage(2));
+document.getElementById('musicToggle').addEventListener('click', ()=> {
+  if(music.paused) { music.play().catch(()=>{}); } else { music.pause(); }
+  document.getElementById('musicToggle').textContent = music.paused ? '🎵 Play' : '🔊';
+});
+
+// play button start
+document.getElementById('startCelebrate').addEventListener('click', ()=>{
+  music.play().catch(()=>{});
+  document.getElementById('musicToggle').textContent = '🔊';
+  showPage(1);
+});
+
+// slideshow dots initial
+function createGridDots(){
+  const wrap = document.getElementById('gridDots');
+  if(!wrap) return;
+  wrap.innerHTML = '';
+  for(let i=0;i<6;i++){ const d=document.createElement('div'); d.className='dot'; wrap.appendChild(d); }
+}
+createGridDots();
+
+// build bottom dots state
+document.querySelectorAll('div[id^="d"]').forEach(el => el.classList.toggle('active', false));
+
+// slideshow auto demo: handled by button
+
+/* ========== Playful polish: click any photo to open slideshow at that index ========== */
+document.querySelectorAll('.photo-card img').forEach((img, idx)=>{
+  img.addEventListener('click', ()=>{
+    renderSlideAt(idx);
+    showPage(2);
+  });
+});
+function renderSlideAt(idx){ renderSlide(idx); }
+
+// ensure slide dots exist for navigation
+// (renderSlide defined earlier, but slideDots created inside renderSlide)
+
+/* ========== Ensure windows sized canvases ========== */
+window.addEventListener('resize', ()=> {
+  fitCanvas(confettiCanvas); fitCanvas(pCanvas); fitCanvas(fireCanvas);
+});
+
+/* small: fade out music at final */
+function fadeOutMusic(){
+  const vol = music.volume;
+  const t = setInterval(()=> {
+    music.volume = Math.max(0, music.volume - 0.02);
+    if(music.volume <= 0.02) { clearInterval(t); music.pause(); music.volume = vol; document.getElementById('musicToggle').textContent = '🎵 Play'; }
+  }, 140);
+}
+/* when final page activated fade out */
+const finalObserver = new MutationObserver(()=> {
+  if(document.getElementById('final').classList.contains('active')) fadeOutMusic();
+});
+finalObserver.observe(document.getElementById('final'), { attributes: true, attributeFilter: ['class'] });
+
+/* call confetti when reaching slideshow next and on final transitions for fun */
+document.getElementById('nextSlide').addEventListener('click', ()=> confettiBurst(18));
+document.getElementById('prevSlide').addEventListener('click', ()=> confettiBurst(18));
+
+/* init last: renderSlide exists earlier; ensure slideDots container present */
+renderSlide(0);
+
+/* small safety: if audio not present, hide toggle */
+music.addEventListener('error', ()=> { document.getElementById('musicToggle').style.display='none'; });
+cheer.addEventListener('error', ()=> { /* optional */ });
+
+</script>
+</body>
+</html>
